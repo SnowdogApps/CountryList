@@ -1,1 +1,43 @@
 /build
+bin/
+gen/
+gen/*
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+#Eclipse
+.project
+.classpath
+.settings
+
+#IntelliJ IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+out/
+
+#Maven
+target/
+release.properties
+pom.xml.*
+
+#Ant
+build.xml
+local.properties
+proguard.cfg
+
+#Gradle
+.gradle
+build/
+
+#OSX
+.DS_Store
+
+#Personal Files
+signing.properties
