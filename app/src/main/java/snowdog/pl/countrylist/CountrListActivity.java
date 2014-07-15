@@ -70,7 +70,7 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        private String TAG = "PlaceholderFragment";
+        public static final String TAG = "PlaceholderFragment";
         private Spinner spCountryList;
         private ArrayList<Country> lsCountries;
         private AutoCompleteTextView mAutoCompleteCountries;
