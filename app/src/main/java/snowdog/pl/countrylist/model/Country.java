@@ -15,9 +15,7 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 
     public String getCode() {
