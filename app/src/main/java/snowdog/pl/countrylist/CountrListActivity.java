@@ -19,11 +19,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.MissingResourceException;
 
 import snowdog.pl.countrylist.model.Country;
 
 
 public class CountrListActivity extends Activity implements AdapterView.OnItemSelectedListener {
+
+    public static final String TAG = "CountryListActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,7 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        private String TAG = "PlaceholderFragment";
+        public static final String TAG = "PlaceholderFragment";
         private Spinner spCountryList;
         private ArrayList<Country> lsCountries;
         private AutoCompleteTextView mAutoCompleteCountries;
@@ -136,11 +140,24 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
             aryCountryNames = getActivity().getResources().getStringArray(R.array.countries);
             aryCountryCodes = getActivity().getResources().getStringArray(R.array.countries_codes);
 
-            String locale = getResources().getConfiguration().locale.getISO3Country();
+            String locale = "";
             int countryId = 0;
+
+            //get country code
+            try {
+                locale = getResources().getConfiguration().locale.getISO3Country();
+            } catch (MissingResourceException ex) {
+                Log.d(TAG, ex.toString());
+            } catch (NullPointerException ex) {
+                Log.d(TAG, ex.toString());
+            } catch (Exception ex) {
+                Log.d(TAG, ex.toString());
+            }
+
             for (int i = 0; aryCountryCodes.length > i; i++) {
                 lsCountries.add(new Country(aryCountryCodes[i], aryCountryNames[i]));
-                if(aryCountryCodes[i].equalsIgnoreCase(locale)) countryId = i;
+                if (locale != null && locale.length() > 0 && aryCountryCodes[i].equalsIgnoreCase(locale))
+                    countryId = i;
             }
 
             ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(getActivity(), android.R.layout.simple_spinner_item, lsCountries);
