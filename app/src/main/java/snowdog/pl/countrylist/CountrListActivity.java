@@ -162,13 +162,14 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
 
             for (int i = 0; aryCountryCodes.length > i; i++) {
                 lsCountries.add(new Country(aryCountryCodes[i], aryCountryNames[i]));
-                if (locale != null && locale.length() > 0 && aryCountryCodes[i].equalsIgnoreCase(locale))
+                if (locale != null && locale.length() > 0 && aryCountryCodes[i].equalsIgnoreCase(locale)) {
                     countryId = i;
+                }
             }
 
             ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(getActivity(), android.R.layout.simple_spinner_item, lsCountries);
             spCountryList.setAdapter(adapter);
-          //  spCountryList.setSelection(countryId);
+            spCountryList.setSelection(countryId);
 
             ArrayAdapter<Country> autoCompleteAdapter =
                     new ArrayAdapter<Country>(getActivity(), android.R.layout.simple_list_item_1, lsCountries);
@@ -185,7 +186,7 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
                         }
                         positionCounter++;
                     }
-                    spCountryList.setSelection(positionCounter);
+//                    spCountryList.setSelection(positionCounter);
                     Log.d(TAG, "onItemClick: " + positionCounter + " country name: " + selectedCountry.toString());
                 }
             });
