@@ -19,6 +19,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.MissingResourceException;
 
 import snowdog.pl.countrylist.model.Country;
@@ -90,7 +91,7 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
                 public void onAddressFound(Address address) {
                     int positionCounter = 0;
                     for (Country country : lsCountries) {
-                        if (country.getCode().equals(address.getCountryCode())) {
+                        if (country.getCode().equals(iso2CountryCodeToIso3CountryCode(address.getCountryCode()))) {
                             break;
                         }
                         positionCounter++;
@@ -123,6 +124,11 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
             if(latitude != 0 && longitude != 0) {
                 reverseGeocodingTask.execute(latitude, longitude);
             }
+        }
+
+        private String iso2CountryCodeToIso3CountryCode(String iso2CountryCode){
+            Locale locale = new Locale("", iso2CountryCode);
+            return locale.getISO3Country();
         }
 
 
