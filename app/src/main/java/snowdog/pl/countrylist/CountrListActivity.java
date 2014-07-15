@@ -84,11 +84,15 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
             aryCountryNames = getActivity().getResources().getStringArray(R.array.countries);
             aryCountryCodes = getActivity().getResources().getStringArray(R.array.countries_codes);
 
+            String locale = getResources().getConfiguration().locale.getISO3Country();
+            int countryId = 0;
             for (int i = 0; aryCountryCodes.length > i; i++) {
                 lsCountries.add(new Country(aryCountryCodes[i], aryCountryNames[i]));
+                if(aryCountryCodes[i].equalsIgnoreCase(locale)) countryId = i;
             }
 
             spCountryList.setAdapter(new ArrayAdapter<Country>(getActivity(), android.R.layout.simple_spinner_item, lsCountries));
+            spCountryList.setSelection(countryId);
 
             return rootView;
         }
