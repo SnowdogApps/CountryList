@@ -3,6 +3,7 @@ package snowdog.pl.countrylist;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -64,9 +66,10 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-
+        private String TAG = "PlaceholderFragment";
         private Spinner spCountryList;
         private ArrayList<Country> lsCountries;
+        private AutoCompleteTextView mAutoCompleteCountries;
 
         public PlaceholderFragment() {
         }
@@ -76,6 +79,7 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_countr_list, container, false);
             spCountryList = (Spinner) rootView.findViewById(R.id.spinner_countrylist);
+            mAutoCompleteCountries = (AutoCompleteTextView) rootView.findViewById(R.id.autocomplete_country);
 
             lsCountries = new ArrayList<Country>();
 
@@ -94,6 +98,27 @@ public class CountrListActivity extends Activity implements AdapterView.OnItemSe
             spCountryList.setAdapter(new ArrayAdapter<Country>(getActivity(), android.R.layout.simple_spinner_item, lsCountries));
             spCountryList.setSelection(countryId);
 
+
+            ArrayAdapter<String> autoCompleteAdapter =
+                    new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, aryCountryNames);
+            mAutoCompleteCountries.setAdapter(autoCompleteAdapter);
+
+            mAutoCompleteCountries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedCountry = (String) parent.getItemAtPosition(position);
+                    int positionCounter = 0;
+                    for (Country country : lsCountries) {
+                        if (country.getName().equals(selectedCountry)) {
+                            break;
+                        }
+                        positionCounter++;
+                    }
+                    spCountryList.setSelection(positionCounter);
+                    Log.d(TAG, "onItemClick: " + positionCounter + " country name: " + selectedCountry);
+                }
+            });
+            Log.d(TAG, "onCreateView");
             return rootView;
         }
     }
